@@ -1,7 +1,11 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Description: Create a simple bucket with cfn
+Parameters:
+  BucketName:
+    Type: String
+    Description: The name of the S3 Bucket to create
 Resources:
   MyBucket:
     Type: AWS::S3::Bucket
     Properties:
-      BucketName: ryan.lewon.labs
+      BucketName: !Ref BucketName
