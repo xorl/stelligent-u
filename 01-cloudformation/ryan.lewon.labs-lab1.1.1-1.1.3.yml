@@ -1,0 +1,22 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Create a simple bucket with cfn
+Parameters:
+  BucketName:
+    Type: String
+    Description: The name of the S3 Bucket to create
+Conditions:
+  IsPreferredRegion: !Equals
+    - !Ref AWS::Region
+    - us-east-1
+Resources:
+  MyBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      !If [
+        IsPreferredRegion,
+        !Sub ${AWS::AccountId}-${BucketName},
+        !Sub ${AWS::Region}-${BucketName},
+
+        !Join ["-", [!Ref AWS::AccountId, !Ref jhS3BucketName]],
+        !Join ["-", [!Ref AWS::Region, !Ref jhS3BucketName]],
+      ]
