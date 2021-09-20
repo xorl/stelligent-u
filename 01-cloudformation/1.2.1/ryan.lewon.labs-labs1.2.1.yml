@@ -1,0 +1,25 @@
+Description: 'Create an IAM User with an IAM Managed Policy allowing Read access to S3.'
+Parameters:
+  IAMUsername:
+    Description: 'Username for IAM user to be created.'
+    Type: String
+Resources:
+  NewUserFromCFN:
+    Type: 'AWS::IAM::User'
+    Properties:
+      Path: "/"
+      LoginProfile:
+        Password: !Ref IAMPassword
+      UserName: !Ref IAMUsername
+  NewIAMPolicyFromCFN:
+    Type: AWS::IAM::ManagedPolicy
+    Properties:
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Action:
+              - s3:x-amz-grant-read
+            Resource: arn:aws:s3:::*
+      Users: 
+        - !Ref NewUserFromCFN
