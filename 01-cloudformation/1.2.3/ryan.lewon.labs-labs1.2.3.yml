@@ -1,0 +1,13 @@
+Parameters:
+  Username:
+    Description: 'IAM Username created'
+    Type: String
+Resources:
+  EvenNewerUser:
+    Type: 'AWS::IAM::User'
+    Properties:
+      Path: "/"
+      UserName: !Ref Username
+      ManagedPolicyArns:
+        - !ImportValue NewManagedPolicyArn
+Description: 'Create IAM USER with managed Policy from seperate stack import'
