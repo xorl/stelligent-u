@@ -91,6 +91,33 @@ Create a CFN template that specifies an IAM Role.
 
   - List all the Roles
   - Describe the specific Role your Stack created.
+```
+        {
+            "Path": "/",
+            "RoleName": "ryan-lewon-<...>-iam-IAMPolicy-<...>",
+            "RoleId": "<...>",
+            "Arn": "arn:aws:iam::<...>:role/<...>-iam-IAMPolicy-<...>",
+            "CreateDate": "2021-09-23T16:09:08+00:00",
+            "AssumeRolePolicyDocument": {
+                "Version": "2012-10-17",
+                "Statement": [
+                    {
+                        "Effect": "Allow",
+                        "Principal": {
+                            "AWS": "arn:aws:iam::<...>:user/<...>"
+                        },
+                        "Action": "sts:AssumeRole"
+                    }
+                ]
+            },
+            "Description": "",
+            "MaxSessionDuration": 3600
+        },
+```
+
+
+Listed all roles, not posting (public repo)
+
 
 #### Lab 3.1.2: Customer Managed Policy
 
