@@ -195,6 +195,8 @@ stack's two roles in order to pass those values to the CLI function. You
 probably used the AWS web console to get the ARN for each role. What
 could you have done to your CFN template to make that unnecessary?_
 
+Use !GetAtt with VAR.Arn to retrieve the arn in an Outputs: section within CFN.
+
 #### Task: Stack Outputs
 
 Institute that change from the Question above. Recreate the stack as per
@@ -243,6 +245,8 @@ your User to assume that role.
 file, use [aws sts assume-role](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_use-resources.html#using-temp-creds-sdk-cli).
 It's a valuable mechanism you'll use often through the API, and it's good to
 know how to do it from the CLI as well.*
+
+(This hint is applied in our 00 lab of creating a script with temp credentials.)
 
 #### Lab 3.2.2: Explore the assumed role
 

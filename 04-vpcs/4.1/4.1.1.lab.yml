@@ -1,0 +1,23 @@
+
+AWSTemplateFormatVersion: 2010-09-09
+Description: 4.1.1 Lab Ryan Lewon
+Resources:
+  EC2VPCCB:
+    Type: 'AWS::EC2::VPCCidrBlock'
+    Properties:
+      CidrBlock: 172.0.0.1/16
+  EC2SubnetCB:
+    Type: 'AWS::EC2::SubnetCidrBlock'
+    Properties: 172.0.0.1/24
+
+Outputs:
+  VPCCBOutput:
+    Description: EC2 VPC ID Output
+    Value: !GetAtt EC2VPCCB.Id
+    Export:
+      Name: EC2VPCCB-Id
+  EC2SubnetCBOutput:
+    Description: EC2 VPC Subnet ID
+    Value: !GetAtt EC2SubnetCB.Id
+    Export:
+      Name: EC2SubnetCB-Id
