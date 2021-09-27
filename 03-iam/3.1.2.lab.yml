@@ -1,0 +1,28 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: IAM Template created and limits to readonly IAM resources
+Resources:
+  IAMRORole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              AWS: arn:aws:iam::324320755747:user/ryan.lewon.labs
+            Action:
+              - 'sts:AssumeRole'
+  IAMROPolicy:
+    Type: AWS::IAM::ManagedPolicy
+    Properties:
+      ManagedPolicyName: IAMROMP
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Action:
+              - iam:Get*
+              - iam:List*
+            Resource: "*"
+      Roles:
+        - !Ref IAMRORole
