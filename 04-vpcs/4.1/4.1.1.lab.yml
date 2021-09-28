@@ -16,7 +16,7 @@ Resources:
   EC2Subnet:
     Type: 'AWS::EC2::Subnet'
     Properties: 
-      CidrBlock: 172.0.0.1/24
+      CidrBlock: 172.2.0.1/24
       Tags: 
       - Key: "user"
         Value: "ryan.lewon.labs"
