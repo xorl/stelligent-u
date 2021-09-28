@@ -1,23 +1,37 @@
 
 AWSTemplateFormatVersion: 2010-09-09
-Description: 4.1.1 Lab Ryan Lewon
+Description: 4.1.1 Lab Ryan
 Resources:
   EC2VPCCB:
     Type: 'AWS::EC2::VPCCidrBlock'
     Properties:
       CidrBlock: 172.0.0.1/16
-  EC2SubnetCB:
-    Type: 'AWS::EC2::SubnetCidrBlock'
-    Properties: 172.0.0.1/24
-
+      Tags: 
+      - Key: "user"
+        Value: "ryan.lewon.labs"
+      - Key: "stelligent-u-lesson"
+        Value: "4"
+      - Key: "stelligent-u-lab"
+        Value: "4.1.1"
+  EC2Subnet:
+    Type: 'AWS::EC2::Subnet'
+    Properties: 
+      CidrBlock: 172.0.0.1/24
+      Tags: 
+      - Key: "user"
+        Value: "ryan.lewon.labs"
+      - Key: "stelligent-u-lesson"
+        Value: "4"
+      - Key: "stelligent-u-lab"
+        Value: "4.1.1"
 Outputs:
   VPCCBOutput:
     Description: EC2 VPC ID Output
-    Value: !GetAtt EC2VPCCB.Id
+    Value: !Ref EC2VPCCB
     Export:
       Name: EC2VPCCB-Id
-  EC2SubnetCBOutput:
+  EC2SubnetOutput:
     Description: EC2 VPC Subnet ID
-    Value: !GetAtt EC2SubnetCB.Id
+    Value: !Ref EC2Subnet
     Export:
-      Name: EC2SubnetCB-Id
+      Name: EC2Subnet-Id
