@@ -17,6 +17,6 @@ Resources:
         !Sub ${AWS::AccountId}-${BucketName},
         !Sub ${AWS::Region}-${BucketName},
 
-        !Join ["-", [!Ref AWS::AccountId, !Ref jhS3BucketName]],
-        !Join ["-", [!Ref AWS::Region, !Ref jhS3BucketName]],
+        !Join ["-", [!Ref AWS::AccountId, !Ref BucketName]],
+        !Join ["-", [!Ref AWS::Region, !Ref BucketName]],
       ]
