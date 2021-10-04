@@ -1,0 +1,10 @@
+[
+	{
+		"ParameterKey": "VPCCidr",
+		"ParameterValue": "172.0.0.1/16"
+	},
+    {
+		"ParameterKey": "EC2Cidr",
+		"ParameterValue": "172.0.2.1/24"    
+    }
+]
