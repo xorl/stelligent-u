@@ -25,13 +25,13 @@ Resources:
         - Key: stelligent-u-lab
           Value: 4.1.2
   EC2Subnet:
-    Type: 'AWS::EC2::Subnet'
+    Type: AWS::EC2::Subnet
     Properties:
       CidrBlock: !Ref EC2Cidr
       VpcId: 
         Ref: EC2VPC
   EC2Igw:
-    Type: 'AWS::EC2::InternetGateway'
+    Type: AWS::EC2::InternetGateway
     Properties:
       Tags:
         - Key: user
@@ -45,6 +45,31 @@ Resources:
     Properties:
       InternetGatewayId: !Ref EC2Igw
       VpcId: !Ref EC2VPC
+  RTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref EC2VPC
+      Tags:
+        - Key: Name
+          Value: "ryan.lewon.labs-route-table"
+        - Key: user
+          Value: ryan.lewon.labs
+        - Key: stelligent-u-lesson
+          Value: 4
+        - Key: stelligent-u-lab
+          Value: 4.1.2
+  PRoute:
+    Type: AWS::EC2::Route
+    DependsOn: EC2IgwAtt
+    Properties:
+      RouteTableId: !Ref RTable
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref EC2Igw
+  RTAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId: !Ref RTable
+      SubnetId: !Ref EC2Subnet
 Outputs:
   VPCCBOutput:
     Description: EC2 VPC ID Output
