@@ -1,0 +1,7 @@
+{
+    "Parameters": {
+        "AMZAMI": "ami-0a3335277de246f64",
+        "IType": "t2.small",
+        "EC2KP": "ryan.lewon.labs"
+    }
+}
