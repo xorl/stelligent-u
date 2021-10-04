@@ -4,10 +4,10 @@ Description: 4.1.1 Lab Ryan
 Parameters:
   VPCCidr:
     Type: String
-    Default: 172.0.0.1/16
+    Default: 10.0.0.1/16
   EC2Cidr:
     Type: String
-    Default: 172.0.2.1/24 
+    Default: 10.0.2.1/24
 Resources:
   EC2VPC:
     Type: AWS::EC2::VPC
@@ -50,9 +50,9 @@ Outputs:
     Description: EC2 VPC ID Output
     Value: !Ref EC2VPC
     Export:
-      Name: EC2VPCCB-Id
+      Name: ryan-lewon-labs-vpcid
   EC2SubnetOutput:
     Description: EC2 VPC Subnet ID
     Value: !Ref EC2Subnet
     Export:
-      Name: EC2Subnet-Id
+      Name: ryan-lewon-labs-subnet-id
