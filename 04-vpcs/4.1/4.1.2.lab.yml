@@ -8,7 +8,22 @@ Parameters:
   EC2Cidr:
     Type: String
     Default: 10.0.2.1/24
+  EC2Cidr2:
+    Type: String
+    Default: 10.0.10.1/24
 Resources:
+  EC2EIP:
+    Type: AWS::EC2::EIP
+    Properties:
+      Tags:
+        - Key: Name
+          Value: "ryan.lewon.labs-vpc"
+        - Key: user
+          Value: ryan.lewon.labs
+        - Key: stelligent-u-lesson
+          Value: 4
+        - Key: stelligent-u-lab
+          Value: 4.1.2
   EC2VPC:
     Type: AWS::EC2::VPC
     Properties:
@@ -24,10 +39,16 @@ Resources:
           Value: 4
         - Key: stelligent-u-lab
           Value: 4.1.2
-  EC2Subnet:
+  EC2SubnetPub:
     Type: AWS::EC2::Subnet
     Properties:
       CidrBlock: !Ref EC2Cidr
+      VpcId: 
+        Ref: EC2VPC
+  EC2SubnetPriv:
+    Type: AWS::EC2::Subnet
+    Properties:
+      CidrBlock: !Ref EC2Cidr2
       VpcId: 
         Ref: EC2VPC
   EC2Igw:
@@ -38,6 +59,22 @@ Resources:
           Value: ryan.lewon.labs
         - Key: stelligent-u-lesson
           Value: 4
+        - Key: stelligent-u-lab
+          Value: 4.1.2
+  EC2Ngw:
+    Type: AWS::EC2::NatGateway
+    Properties:
+      AllocationId:
+        Fn::GetAtt:
+        - EC2EIP
+        - AllocationId
+      SubnetId:
+        !Ref EC2SubnetPriv
+      Tags:
+        - Key: 'user'
+          Value: 'ryan.lewon.labs'
+        - Key: 'stelligent-u-lab'
+          Value: '4.1'
         - Key: stelligent-u-lab
           Value: 4.1.2
   EC2IgwAtt:
@@ -69,15 +106,43 @@ Resources:
     Type: AWS::EC2::SubnetRouteTableAssociation
     Properties:
       RouteTableId: !Ref RTable
-      SubnetId: !Ref EC2Subnet
+      SubnetId: !Ref EC2SubnetPub
+  RTablePriv:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref EC2VPC
+      Tags:
+        - Key: Name
+          Value: "ryan.lewon.labs-route-table"
+        - Key: user
+          Value: ryan.lewon.labs
+        - Key: stelligent-u-lesson
+          Value: 4
+        - Key: stelligent-u-lab
+          Value: 4.1.2
+  PRoutePriv:
+    Type: AWS::EC2::Route
+    DependsOn: EC2IgwAtt
+    Properties:
+      VpcId: !Ref EC2VPC
+  RTAssociationPriv:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId: !Ref RTablePriv
+      SubnetId: !Ref EC2SubnetPriv
 Outputs:
   VPCCBOutput:
     Description: EC2 VPC ID Output
     Value: !Ref EC2VPC
     Export:
       Name: ryan-lewon-labs-vpcid
-  EC2SubnetOutput:
+  EC2SubnetPubOutput:
     Description: EC2 VPC Subnet ID
-    Value: !Ref EC2Subnet
+    Value: !Ref EC2SubnetPub
     Export:
-      Name: ryan-lewon-labs-subnet-id
+      Name: ryan-lewon-labs-pub-subnet-id
+  EC2SubnetPrivOutput:
+    Description: EC2 VPC Subnet ID
+    Value: !Ref EC2SubnetPriv
+    Export:
+      Name: ryan-lewon-labs-priv-subnet-id
