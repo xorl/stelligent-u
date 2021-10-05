@@ -1,0 +1,80 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 4.1.4 Lab Ryan
+Parameters:
+  AMZAMI:
+    Type: String
+    Description: "Amazon Linux AMI ID"
+    Default: "ami-0a3335277de246f64"
+  IType:
+    Type: String
+    Description: "Instance Type"
+    Default: "t2.small"
+  EC2KP:
+    Type: String
+    Description: "EC2 KeyPair Generated with 4.1.3"
+    Default: "ryan.lewon.labs"
+Resources:
+  EC2I:
+    Type: AWS::EC2::Instance
+    Properties: 
+      InstanceType: !Ref IType
+      ImageId: !Ref AMZAMI
+      KeyName: !Ref EC2KP
+      BlockDeviceMappings: 
+      - DeviceName: "/dev/sdm"
+        Ebs: 
+          VolumeType: io1
+          Iops: 200
+          DeleteOnTermination: false
+          VolumeSize: 20
+      - DeviceName: "/dev/sdk"
+        NoDevice: {}
+      NetworkInterfaces:
+      - AssociatePublicIpAddress: True
+        DeleteOnTermination: True
+        SubnetId:
+          !ImportValue EC2Subnet-Id
+        DeviceIndex: '0'
+        GroupSet:
+          - Ref: SGroup
+  SGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Allow ssh to client host
+      VpcId:
+        !ImportValue EC2VPCCB-Id
+      SecurityGroupIngress:
+      - IpProtocol: tcp
+        FromPort: 22
+        ToPort: 22
+        CidrIp: 0.0.0.0/0
+      - IpProtocol: icmp 
+        FromPort: 8
+        ToPort: -1
+        CidrIp: 0.0.0.0/0
+      SecurityGroupEgress:
+      - IpProtocol: tcp
+        FromPort: 22
+        ToPort: 22
+        CidrIp: 0.0.0.0/0
+      - IpProtocol: icmp 
+        FromPort: 8
+        ToPort: -1
+        CidrIp: 0.0.0.0/0
+
+Outputs:
+  # Instance ID ...
+  InstanceID:
+    Description: Instance ID Output
+    Value: !Ref EC2I
+    Export:
+      Name: ryan-lewon-labs-instance-id
+  InstancePIP:
+    Description: EC2 Instance Privte IP address
+    Value:
+      Fn::GetAtt:
+        - EC2I
+        - PrivateIp
+    Export:
+      Name: ryan-lewon-labs-private-ip
+  # Private IP ...
